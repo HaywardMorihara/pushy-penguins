@@ -2,7 +2,6 @@ package com.nathanielmorihara.pushypenguins;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,64 +9,68 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Game extends ApplicationAdapter {
-	// Constant rows and columns of the sprite sheet
-	private static final int FRAME_COLS = 3, FRAME_ROWS = 1;
 
-	// Objects used
-	Animation<TextureRegion> walkAnimation; // Must declare frame type (TextureRegion)
-	Texture walkSheet;
-	SpriteBatch spriteBatch;
+	private float time;
+	private SpriteBatch spriteBatch;
 
-	// A variable for tracking elapsed time for the animation
-	float stateTime;
+	Player player;
 
+	// Method called once when the application is created.
 	@Override
 	public void create() {
+		// Load Assets
+		Player.load();
 
-		// Load the sprite sheet as a Texture
-		walkSheet = new Texture(Gdx.files.internal("Trainer.png"));
-
-		// Use the split utility method to create a 2D array of TextureRegions. This is
-		// possible because this sprite sheet contains frames of equal size and they are
-		// all aligned.
-		TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-				walkSheet.getWidth() / FRAME_COLS,
-				walkSheet.getHeight() / FRAME_ROWS);
-
-		// Place the regions into a 1D array in the correct order, starting from the top
-		// left, going across first. The Animation constructor requires a 1D array.
-		TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-		int index = 0;
-		for (int i = 0; i < FRAME_ROWS; i++) {
-			for (int j = 0; j < FRAME_COLS; j++) {
-				walkFrames[index++] = tmp[i][j];
-			}
-		}
-
-		// Initialize the Animation with the frame interval and array of frames
-		walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames);
-
+		// Game Start
+		time = 0f;
 		// Instantiate a SpriteBatch for drawing and reset the elapsed animation
 		// time to 0
 		spriteBatch = new SpriteBatch();
-		stateTime = 0f;
+		player = new Player();
 	}
 
+	// This method is called every time the game screen is re-sized and the game is not in the paused state. It is also called once just after the create() method.
+	// The parameters are the new width and height the screen has been resized to in pixels.
+	@Override
+	public void resize (int width, int height) {
+	}
+
+	// Method called by the game loop from the application every time rendering should be performed. Game logic updates are usually also performed in this method.
 	@Override
 	public void render() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
-		stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+		update();
+		draw();
+	}
 
-		// Get current frame of animation for the current stateTime
-		TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+	public void update() {
+		time += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+
+		player.update(time);
+	}
+
+	public void draw() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
+
 		spriteBatch.begin();
-		spriteBatch.draw(currentFrame, 50, 50); // Draw current frame at (50, 50)
+		// TODO I feel like this is bad to do...I'm not sure why though
+		player.draw(spriteBatch, time);
 		spriteBatch.end();
 	}
 
+	// On Android this method is called when the Home button is pressed or an incoming call is received. On desktop this is called just before dispose() when exiting the application.
+	// A good place to save the game state.
+	@Override
+	public void pause () {
+	}
+
+	// This method is only called on Android, when the application resumes from a paused state.
+	@Override
+	public void resume () {
+	}
+
+	// Called when the application is destroyed. It is preceded by a call to pause().
 	@Override
 	public void dispose() { // SpriteBatches and Textures must always be disposed
-		spriteBatch.dispose();
-		walkSheet.dispose();
+		Player.dispose();
 	}
 }
