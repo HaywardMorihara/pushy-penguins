@@ -14,8 +14,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Player {
-
+public class Penguin {
   // Constant rows and columns of the sprite sheet
   private static final int FRAME_COLS = 3, FRAME_ROWS = 3;
   private static Texture walkSheet;
@@ -29,9 +28,6 @@ public class Player {
   private static Animation<TextureRegion> walkUpAnimation;
   private static Animation<TextureRegion> walkLeftAnimation;
   private static Animation<TextureRegion> walkRightAnimation;
-
-//  private float x;
-//  private float y;
 
   Body body;
 
@@ -89,16 +85,13 @@ public class Player {
     walkSheet.dispose();
   }
 
-  public Player(World world) {
-//    x = 0;
-//    y = 0;
-
+  public Penguin(World world) {
     // First we create a body definition
     BodyDef bodyDef = new BodyDef();
     // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     // Set our body's starting position in the world
-    bodyDef.position.set(0, 0);
+    bodyDef.position.set(50, 500);
 
     // Create our body in the world using our body definition
     body = world.createBody(bodyDef);
@@ -122,56 +115,29 @@ public class Player {
     circle.dispose();
   }
 
-//  Vector2 vel = this.player.body.getLinearVelocity();
-//  Vector2 pos = this.player.body.getPosition();
-//
-//  // apply left impulse, but only if max velocity is not reached yet
-//if (Gdx.input.isKeyPressed(Keys.A) && vel.x > -MAX_VELOCITY) {
-//    this.player.body.applyLinearImpulse(-0.80f, 0, pos.x, pos.y, true);
-//  }
-//
-//  // apply right impulse, but only if max velocity is not reached yet
-//if (Gdx.input.isKeyPressed(Keys.D) && vel.x < MAX_VELOCITY) {
-//    this.player.body.applyLinearImpulse(0.80f, 0, pos.x, pos.y, true);
-//  }
-
   public void update(float time) {
-    Vector2 pos = body.getPosition();
+    //body.setLinearVelocity(0,0);
 
-    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      body.applyLinearImpulse(0, 1000f, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      body.applyLinearImpulse(0, -1000f, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      body.applyLinearImpulse(-1000f, 0, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      body.applyLinearImpulse(1000f, 0, pos.x, pos.y, true);
-    }
-    else {
-      // But...wouldn't this prevent player from getting pushed? Meh, it actually seems okay. May want to tweak it though
-      /// Also I know its weird so the user can still move in x if start pressing y
-      body.setLinearVelocity(0,0);
-    }
+    Vector2 pos = body.getPosition();
+    body.applyLinearImpulse(0, -10f, pos.x, pos.y, true);
   }
 
   public void draw(SpriteBatch spriteBatch, float time) {
     // Get current frame of animation for the current time
     TextureRegion currentFrame = still;
-    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      currentFrame = walkUpAnimation.getKeyFrame(time, true);
-    }
-    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      currentFrame = walkDownAnimation.getKeyFrame(time, true);
-    }
-    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      currentFrame = walkLeftAnimation.getKeyFrame(time, true);
-    }
-    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      currentFrame = walkRightAnimation.getKeyFrame(time, true);
-    }
+    currentFrame = walkDownAnimation.getKeyFrame(time, true);
+//    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+//      currentFrame = walkUpAnimation.getKeyFrame(time, true);
+//    }
+//    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+//      currentFrame = walkDownAnimation.getKeyFrame(time, true);
+//    }
+//    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+//      currentFrame = walkLeftAnimation.getKeyFrame(time, true);
+//    }
+//    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+//      currentFrame = walkRightAnimation.getKeyFrame(time, true);
+//    }
     spriteBatch.draw(currentFrame, body.getPosition().x, body.getPosition().y); // Draw current frame at (50, 50)
   }
 }

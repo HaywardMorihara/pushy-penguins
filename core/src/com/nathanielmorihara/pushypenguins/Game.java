@@ -7,26 +7,39 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Game extends ApplicationAdapter {
 
 	private float time;
 	private SpriteBatch spriteBatch;
 
+	World world;
+
 	Player player;
+	Penguin penguin;
 
 	// Method called once when the application is created.
 	@Override
 	public void create() {
 		// Load Assets
 		Player.load();
+		Penguin.load();
+
+		// Physics
+		Box2D.init();
+		world = new World(new Vector2(0, 0), true);
+		// There is a Box2DDebugRenderer
 
 		// Game Start
 		time = 0f;
 		// Instantiate a SpriteBatch for drawing and reset the elapsed animation
 		// time to 0
 		spriteBatch = new SpriteBatch();
-		player = new Player();
+		player = new Player(world);
+		penguin = new Penguin(world);
 	}
 
 	// This method is called every time the game screen is re-sized and the game is not in the paused state. It is also called once just after the create() method.
@@ -46,6 +59,11 @@ public class Game extends ApplicationAdapter {
 		time += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
 		player.update(time);
+		penguin.update(time);
+
+		// Should this be based on the time or something?
+		// TODO Where should this be? Is this a good calculation? Saw some fancier stuff here https://github.com/libgdx/libgdx/wiki/Box2d
+		world.step(1/60f, 6, 2);
 	}
 
 	public void draw() {
@@ -54,6 +72,7 @@ public class Game extends ApplicationAdapter {
 		spriteBatch.begin();
 		// TODO I feel like this is bad to do...I'm not sure why though
 		player.draw(spriteBatch, time);
+		penguin.draw(spriteBatch, time);
 		spriteBatch.end();
 	}
 
