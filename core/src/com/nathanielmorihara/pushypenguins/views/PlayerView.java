@@ -1,4 +1,4 @@
-package com.nathanielmorihara.pushypenguins;
+package com.nathanielmorihara.pushypenguins.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.nathanielmorihara.pushypenguins.models.PlayerModel;
 
-public class Player {
-
+/**
+ * @author nathaniel.morihara
+ */
+public class PlayerView {
   // Constant rows and columns of the sprite sheet
   private static final int FRAME_COLS = 3, FRAME_ROWS = 3;
   private static Texture walkSheet;
@@ -29,11 +25,6 @@ public class Player {
   private static Animation<TextureRegion> walkUpAnimation;
   private static Animation<TextureRegion> walkLeftAnimation;
   private static Animation<TextureRegion> walkRightAnimation;
-
-//  private float x;
-//  private float y;
-
-  Body body;
 
   public static void load() {
     // Load the sprite sheet as a Texture
@@ -89,76 +80,9 @@ public class Player {
     walkSheet.dispose();
   }
 
-  public Player(World world) {
-//    x = 0;
-//    y = 0;
-
-    // First we create a body definition
-    BodyDef bodyDef = new BodyDef();
-    // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
-    // Set our body's starting position in the world
-    bodyDef.position.set(0, 0);
-
-    // Create our body in the world using our body definition
-    body = world.createBody(bodyDef);
-
-    // Create a circle shape and set its radius to 6
-    CircleShape circle = new CircleShape();
-    circle.setRadius(10f);
-
-    // Create a fixture definition to apply our shape to
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = circle;
-    fixtureDef.density = 0.5f;
-    fixtureDef.friction = 0.4f;
-    fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-
-    // Create our fixture and attach it to the body
-    Fixture fixture = body.createFixture(fixtureDef);
-
-    // Remember to dispose of any shapes after you're done with them!
-    // BodyDef and FixtureDef don't need disposing, but shapes do.
-    circle.dispose();
-  }
-
-//  Vector2 vel = this.player.body.getLinearVelocity();
-//  Vector2 pos = this.player.body.getPosition();
-//
-//  // apply left impulse, but only if max velocity is not reached yet
-//if (Gdx.input.isKeyPressed(Keys.A) && vel.x > -MAX_VELOCITY) {
-//    this.player.body.applyLinearImpulse(-0.80f, 0, pos.x, pos.y, true);
-//  }
-//
-//  // apply right impulse, but only if max velocity is not reached yet
-//if (Gdx.input.isKeyPressed(Keys.D) && vel.x < MAX_VELOCITY) {
-//    this.player.body.applyLinearImpulse(0.80f, 0, pos.x, pos.y, true);
-//  }
-
-  public void update(float time) {
-    Vector2 pos = body.getPosition();
-
-    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      body.applyLinearImpulse(0, 20000f, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      body.applyLinearImpulse(0, -20000f, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      body.applyLinearImpulse(-20000f, 0, pos.x, pos.y, true);
-    }
-    else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      body.applyLinearImpulse(20000f, 0, pos.x, pos.y, true);
-    }
-    else {
-      // But...wouldn't this prevent player from getting pushed? Meh, it actually seems okay. May want to tweak it though
-      /// Also I know its weird so the user can still move in x if start pressing y
-      body.setLinearVelocity(0,0);
-    }
-  }
-
-  public void draw(SpriteBatch spriteBatch, float time) {
+  public void draw(SpriteBatch spriteBatch, float time, PlayerModel playerModel) {
     // Get current frame of animation for the current time
+    // TODO Should be refactored
     TextureRegion currentFrame = still;
     if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
       currentFrame = walkUpAnimation.getKeyFrame(time, true);
@@ -172,6 +96,11 @@ public class Player {
     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
       currentFrame = walkRightAnimation.getKeyFrame(time, true);
     }
-    spriteBatch.draw(currentFrame, body.getPosition().x - 10f, body.getPosition().y -10f, 20f, 20f); // Draw current frame at (50, 50)
+    spriteBatch.draw(
+        currentFrame,
+        playerModel.body.getPosition().x - PlayerModel.width / 2,
+        playerModel.body.getPosition().y - PlayerModel.height / 2,
+        PlayerModel.width,
+        PlayerModel.height);
   }
 }

@@ -37,7 +37,6 @@ public class Game extends ApplicationAdapter {
 
 	Box2DDebugRenderer debugRenderer;
 	Camera camera;
-	Viewport viewport;
 
 	// Method called once when the application is created.
 	@Override
