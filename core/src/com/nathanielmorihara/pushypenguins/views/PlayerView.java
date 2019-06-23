@@ -1,6 +1,4 @@
-package com.nathanielmorihara.pushypenguins;
-
-import java.util.Random;
+package com.nathanielmorihara.pushypenguins.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,15 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.nathanielmorihara.pushypenguins.models.PlayerModel;
 
-public class Penguin {
+/**
+ * @author nathaniel.morihara
+ */
+public class PlayerView {
   // Constant rows and columns of the sprite sheet
   private static final int FRAME_COLS = 3, FRAME_ROWS = 3;
   private static Texture walkSheet;
@@ -30,12 +25,6 @@ public class Penguin {
   private static Animation<TextureRegion> walkUpAnimation;
   private static Animation<TextureRegion> walkLeftAnimation;
   private static Animation<TextureRegion> walkRightAnimation;
-
-  Body body;
-
-  float speed;
-
-  float scale;
 
   public static void load() {
     // Load the sprite sheet as a Texture
@@ -91,67 +80,27 @@ public class Penguin {
     walkSheet.dispose();
   }
 
-  public Penguin(World world) {
-    // First we create a body definition
-    BodyDef bodyDef = new BodyDef();
-    // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-    bodyDef.type = BodyDef.BodyType.KinematicBody;
-    // Set our body's starting position in the world
-    Random random = new Random();
-    float xPos = random.nextFloat() * 500;
-    bodyDef.position.set(xPos,500);
-
-    // Create our body in the world using our body definition
-    body = world.createBody(bodyDef);
-
-    scale = 30f + random.nextFloat() * 50f;
-
-    // Create a circle shape and set its radius to 6
-    CircleShape circle = new CircleShape();
-    circle.setRadius(scale/2);
-
-    // Create a fixture definition to apply our shape to
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = circle;
-    fixtureDef.density = 0.5f;
-    fixtureDef.friction = 0.4f;
-    fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-
-    // Create our fixture and attach it to the body
-    Fixture fixture = body.createFixture(fixtureDef);
-
-    // Remember to dispose of any shapes after you're done with them!
-    // BodyDef and FixtureDef don't need disposing, but shapes do.
-    circle.dispose();
-
-    Random r = new Random();
-    speed = 50f + (r.nextFloat() * 50f);
-  }
-
-  public void update(float time) {
-    //body.setLinearVelocity(0,0);
-
-    Vector2 pos = body.getPosition();
-    body.setLinearVelocity(0, -speed);
-    // body.applyLinearImpulse(0, -10f, pos.x, pos.y, true);
-  }
-
-  public void draw(SpriteBatch spriteBatch, float time) {
+  public void draw(SpriteBatch spriteBatch, float time, PlayerModel playerModel) {
     // Get current frame of animation for the current time
+    // TODO Should be refactored
     TextureRegion currentFrame = still;
-    currentFrame = walkDownAnimation.getKeyFrame(time, true);
-//    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-//      currentFrame = walkUpAnimation.getKeyFrame(time, true);
-//    }
-//    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-//      currentFrame = walkDownAnimation.getKeyFrame(time, true);
-//    }
-//    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-//      currentFrame = walkLeftAnimation.getKeyFrame(time, true);
-//    }
-//    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//      currentFrame = walkRightAnimation.getKeyFrame(time, true);
-//    }
-    spriteBatch.draw(currentFrame, body.getPosition().x - scale/2, body.getPosition().y - scale/2, scale, scale); // Draw current frame at (50, 50)
+    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+      currentFrame = walkUpAnimation.getKeyFrame(time, true);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+      currentFrame = walkDownAnimation.getKeyFrame(time, true);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+      currentFrame = walkLeftAnimation.getKeyFrame(time, true);
+    }
+    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+      currentFrame = walkRightAnimation.getKeyFrame(time, true);
+    }
+    spriteBatch.draw(
+        currentFrame,
+        playerModel.body.getPosition().x - PlayerModel.width / 2,
+        playerModel.body.getPosition().y - PlayerModel.height / 2,
+        PlayerModel.width,
+        PlayerModel.height);
   }
 }
