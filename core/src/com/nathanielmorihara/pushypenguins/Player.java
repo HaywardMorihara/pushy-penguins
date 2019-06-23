@@ -105,7 +105,7 @@ public class Player {
 
     // Create a circle shape and set its radius to 6
     CircleShape circle = new CircleShape();
-    circle.setRadius(6f);
+    circle.setRadius(10f);
 
     // Create a fixture definition to apply our shape to
     FixtureDef fixtureDef = new FixtureDef();
@@ -139,16 +139,16 @@ public class Player {
     Vector2 pos = body.getPosition();
 
     if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-      body.applyLinearImpulse(0, 1000f, pos.x, pos.y, true);
+      body.applyLinearImpulse(0, 20000f, pos.x, pos.y, true);
     }
     else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-      body.applyLinearImpulse(0, -1000f, pos.x, pos.y, true);
+      body.applyLinearImpulse(0, -20000f, pos.x, pos.y, true);
     }
     else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-      body.applyLinearImpulse(-1000f, 0, pos.x, pos.y, true);
+      body.applyLinearImpulse(-20000f, 0, pos.x, pos.y, true);
     }
     else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-      body.applyLinearImpulse(1000f, 0, pos.x, pos.y, true);
+      body.applyLinearImpulse(20000f, 0, pos.x, pos.y, true);
     }
     else {
       // But...wouldn't this prevent player from getting pushed? Meh, it actually seems okay. May want to tweak it though
@@ -172,6 +172,6 @@ public class Player {
     if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
       currentFrame = walkRightAnimation.getKeyFrame(time, true);
     }
-    spriteBatch.draw(currentFrame, body.getPosition().x, body.getPosition().y); // Draw current frame at (50, 50)
+    spriteBatch.draw(currentFrame, body.getPosition().x - 10f, body.getPosition().y -10f, 20f, 20f); // Draw current frame at (50, 50)
   }
 }

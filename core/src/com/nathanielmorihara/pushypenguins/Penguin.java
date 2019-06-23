@@ -1,5 +1,7 @@
 package com.nathanielmorihara.pushypenguins;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,6 +32,10 @@ public class Penguin {
   private static Animation<TextureRegion> walkRightAnimation;
 
   Body body;
+
+  float speed;
+
+  float scale;
 
   public static void load() {
     // Load the sprite sheet as a Texture
@@ -89,16 +95,20 @@ public class Penguin {
     // First we create a body definition
     BodyDef bodyDef = new BodyDef();
     // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.type = BodyDef.BodyType.KinematicBody;
     // Set our body's starting position in the world
-    bodyDef.position.set(50, 500);
+    Random random = new Random();
+    float xPos = random.nextFloat() * 500;
+    bodyDef.position.set(xPos,500);
 
     // Create our body in the world using our body definition
     body = world.createBody(bodyDef);
 
+    scale = 30f + random.nextFloat() * 50f;
+
     // Create a circle shape and set its radius to 6
     CircleShape circle = new CircleShape();
-    circle.setRadius(6f);
+    circle.setRadius(scale/2);
 
     // Create a fixture definition to apply our shape to
     FixtureDef fixtureDef = new FixtureDef();
@@ -113,13 +123,17 @@ public class Penguin {
     // Remember to dispose of any shapes after you're done with them!
     // BodyDef and FixtureDef don't need disposing, but shapes do.
     circle.dispose();
+
+    Random r = new Random();
+    speed = 50f + (r.nextFloat() * 50f);
   }
 
   public void update(float time) {
     //body.setLinearVelocity(0,0);
 
     Vector2 pos = body.getPosition();
-    body.applyLinearImpulse(0, -10f, pos.x, pos.y, true);
+    body.setLinearVelocity(0, -speed);
+    // body.applyLinearImpulse(0, -10f, pos.x, pos.y, true);
   }
 
   public void draw(SpriteBatch spriteBatch, float time) {
@@ -138,6 +152,6 @@ public class Penguin {
 //    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 //      currentFrame = walkRightAnimation.getKeyFrame(time, true);
 //    }
-    spriteBatch.draw(currentFrame, body.getPosition().x, body.getPosition().y); // Draw current frame at (50, 50)
+    spriteBatch.draw(currentFrame, body.getPosition().x - scale/2, body.getPosition().y - scale/2, scale, scale); // Draw current frame at (50, 50)
   }
 }
