@@ -45,8 +45,9 @@ public class PenguinModel {
     body = world.createBody(bodyDef);
 
     Random random = new Random();
-    width = minWidth + random.nextFloat() * (maxWidth - minWidth);
-    height = minHeight + random.nextFloat() * (maxHeight - minHeight);
+    float scale = random.nextFloat();
+    width = minWidth + scale * (maxWidth - minWidth);
+    height = minHeight + scale * (maxHeight - minHeight);
 
     // Create a circle shape and set its radius to 6
     CircleShape circle = new CircleShape();
