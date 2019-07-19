@@ -17,13 +17,13 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class PenguinModel {
 
-  private static final float minWidth = 30f;
-  private static final float maxWidth = 80f;
-  private static final float minHeight = 30f;
+  private static final float minWidth = 24f;
+  private static final float maxWidth = 60f;
+  private static final float minHeight = 32f;
   private static final float maxHeight = 80f;
 
   private static final float minSpeed = 50f;
-  private static final float maxSpeed = 100f;
+  private static final float maxSpeed = 150f;
 
   public float speed;
   public float width;

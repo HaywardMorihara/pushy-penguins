@@ -10,6 +10,7 @@ import com.nathanielmorihara.pushypenguins.models.PenguinModel;
  * @author nathaniel.morihara
  */
 public class PenguinController {
+  // TODO They shouldn't be able to walk over each other
   public void update(PenguinModel penguinModel) {
     penguinModel.body.setLinearVelocity(0, -penguinModel.speed);
   }

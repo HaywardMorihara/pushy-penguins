@@ -16,7 +16,7 @@ import com.nathanielmorihara.pushypenguins.models.PenguinModel;
 public class PenguinView {
 
   // Constant rows and columns of the sprite sheet
-  private static final int FRAME_COLS = 3, FRAME_ROWS = 3;
+  private static final int FRAME_COLS = 3, FRAME_ROWS = 1;
   private static Texture walkSheet;
   private static TextureRegion[] walkDown;
   // Must declare frame type (TextureRegion)
@@ -25,7 +25,7 @@ public class PenguinView {
 
   public static void load() {
     // Load the sprite sheet as a Texture
-    walkSheet = new Texture(Gdx.files.internal("Trainer.png"));
+    walkSheet = new Texture(Gdx.files.internal("BeaverSpritesheet.png"));
 
     // Use the split utility method to create a 2D array of TextureRegions. This is
     // possible because this sprite sheet contains frames of equal size and they are

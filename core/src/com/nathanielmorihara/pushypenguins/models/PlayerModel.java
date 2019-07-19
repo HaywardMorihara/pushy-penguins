@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class PlayerModel {
 
-  public static final float width = 20f;
-  public static final float height = 20f;
+  public static final float width = 28f;
+  public static final float height = 38f;
   public static final float density = 0.5f;
   public static final float friction = 0.4f;
   public static final float restitution = 0.6f;
