@@ -17,13 +17,14 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class PenguinModel {
 
-  private static final float minWidth = 24f;
-  private static final float maxWidth = 60f;
-  private static final float minHeight = 32f;
-  private static final float maxHeight = 80f;
+  // TODO Make these based on spirte
+  private static final float minWidth = 1f; //24
+  private static final float maxWidth = 1f; //60
+  private static final float minHeight = 2f; //32
+  private static final float maxHeight = 2f; //80
 
-  private static final float minSpeed = 50f;
-  private static final float maxSpeed = 150f;
+  private static final float minSpeed = 1f; //50
+  private static final float maxSpeed = 3f; //150
 
   public float speed;
   public float width;
@@ -34,7 +35,8 @@ public class PenguinModel {
 
   public Body body;
 
-  public PenguinModel(World world, float x, float y) {
+  // TODO Use scale
+  public PenguinModel(World world, float scale, float x, float y) {
     // First we create a body definition
     BodyDef bodyDef = new BodyDef();
     // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
@@ -45,9 +47,9 @@ public class PenguinModel {
     body = world.createBody(bodyDef);
 
     Random random = new Random();
-    float scale = random.nextFloat();
-    width = minWidth + scale * (maxWidth - minWidth);
-    height = minHeight + scale * (maxHeight - minHeight);
+    float randScale = random.nextFloat();
+    width = minWidth + randScale * (maxWidth - minWidth);
+    height = minHeight + randScale * (maxHeight - minHeight);
 
     // Create a circle shape and set its radius to 6
     CircleShape circle = new CircleShape();

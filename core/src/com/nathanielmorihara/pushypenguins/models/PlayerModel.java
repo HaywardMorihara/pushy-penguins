@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class PlayerModel {
 
-  public static final float width = 28f;
-  public static final float height = 38f;
+  public static final float width = 1f; //28 // TODO Should be based on sprite
+  public static final float height = 1f; //38 // TODO Should be based on sprite
   public static final float density = 0.5f;
   public static final float friction = 0.4f;
   public static final float restitution = 0.6f;
@@ -21,7 +21,8 @@ public class PlayerModel {
 
   public Body body;
 
-  public PlayerModel(World world, float x, float y) {
+  // TODO Make use of scale
+  public PlayerModel(World world, float scale, float x, float y) {
     // First we create a body definition
     BodyDef bodyDef = new BodyDef();
     // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
