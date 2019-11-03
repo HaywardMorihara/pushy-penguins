@@ -8,7 +8,6 @@ import java.util.Random;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -17,14 +16,14 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class PenguinModel {
 
-  // TODO Make these based on sprite
-  private static final float minWidth = 24f; //24
-  private static final float maxWidth = 60f; //60
-  private static final float minHeight = 32f; //32
-  private static final float maxHeight = 80f; //80
+  // TODO Dynamically set these based on sprite?
+  private static final float minWidthUnscaled = 24f;
+  private static final float maxWidthUnscaled = 60f;
+  private static final float minHeightUnscaled = 32f;
+  private static final float maxHeightUnscaled = 80f;
 
-  private static final float minSpeed = 1f; //50
-  private static final float maxSpeed = 3f; //150
+  private static final float minSpeedUnscaled = 50f;
+  private static final float maxSpeedUnscaled = 150f;
 
   public float speed;
   public float width;
@@ -35,7 +34,8 @@ public class PenguinModel {
 
   public Body body;
 
-  // TODO Use scale
+  // TODO Rename Beavers? Depends on if I decide on that. May not be worth thinking too much about
+  // the concept for this prototype game
   public PenguinModel(World world, float scale, float x, float y) {
     // TODO why aren't collisions working?
     BodyDef bodyDef = new BodyDef();
@@ -47,8 +47,8 @@ public class PenguinModel {
     // TODO Refactor, use scale correctly
     Random random = new Random();
     float randScale = random.nextFloat();
-    width = minWidth * scale + randScale * scale * (maxWidth - minWidth);
-    height = minHeight * scale + randScale * scale * (maxHeight - minHeight);
+    width = minWidthUnscaled * scale + randScale * scale * (maxWidthUnscaled - minWidthUnscaled);
+    height = minHeightUnscaled * scale + randScale * scale * (maxHeightUnscaled - minHeightUnscaled);
 
     CircleShape circle = new CircleShape();
     circle.setRadius(width / 2);
@@ -59,14 +59,13 @@ public class PenguinModel {
     fixtureDef.friction = friction;
     fixtureDef.restitution = restitution; // Make it bounce a little bit
 
-    // Create our fixture and attach it to the body
-    Fixture fixture = body.createFixture(fixtureDef); // TODO Should this be used somewhere?
+    body.createFixture(fixtureDef);
 
     // Remember to dispose of any shapes after you're done with them!
     // BodyDef and FixtureDef don't need disposing, but shapes do.
     circle.dispose();
 
     Random r = new Random();
-    speed = minSpeed + (r.nextFloat() * maxSpeed);
+    speed = minSpeedUnscaled * scale + (r.nextFloat() * maxSpeedUnscaled * scale);
   }
 }
