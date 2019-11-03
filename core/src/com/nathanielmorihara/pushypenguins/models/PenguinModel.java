@@ -37,12 +37,14 @@ public class PenguinModel {
 
   // TODO Use scale
   public PenguinModel(World world, float scale, float x, float y) {
+    // TODO why aren't collisions working?
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.KinematicBody; // TODO What does this mean? Is this what I want?
     bodyDef.position.set(x, y);
 
     body = world.createBody(bodyDef);
 
+    // TODO Refactor, use scale correctly
     Random random = new Random();
     float randScale = random.nextFloat();
     width = minWidth * scale + randScale * scale * (maxWidth - minWidth);

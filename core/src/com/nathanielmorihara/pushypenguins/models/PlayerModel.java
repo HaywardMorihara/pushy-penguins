@@ -21,6 +21,7 @@ public class PlayerModel {
 
   public Body body;
 
+  // TODO Bug: Isn't being created anymore?
   // TODO Make use of scale
   public PlayerModel(World world, float scale, float x, float y) {
     // First we create a body definition
