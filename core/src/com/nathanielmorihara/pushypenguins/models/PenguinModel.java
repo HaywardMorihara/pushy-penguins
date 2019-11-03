@@ -18,10 +18,10 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PenguinModel {
 
   // TODO Make these based on sprite
-  private static final float minWidth = 1f; //24
-  private static final float maxWidth = 1f; //60
-  private static final float minHeight = 2f; //32
-  private static final float maxHeight = 2f; //80
+  private static final float minWidth = 24f; //24
+  private static final float maxWidth = 60f; //60
+  private static final float minHeight = 32f; //32
+  private static final float maxHeight = 80f; //80
 
   private static final float minSpeed = 1f; //50
   private static final float maxSpeed = 3f; //150
@@ -45,8 +45,8 @@ public class PenguinModel {
 
     Random random = new Random();
     float randScale = random.nextFloat();
-    width = minWidth + randScale * scale * (maxWidth - minWidth);
-    height = minHeight + randScale * scale * (maxHeight - minHeight);
+    width = minWidth * scale + randScale * scale * (maxWidth - minWidth);
+    height = minHeight * scale + randScale * scale * (maxHeight - minHeight);
 
     CircleShape circle = new CircleShape();
     circle.setRadius(width / 2);
@@ -58,7 +58,7 @@ public class PenguinModel {
     fixtureDef.restitution = restitution; // Make it bounce a little bit
 
     // Create our fixture and attach it to the body
-    Fixture fixture = body.createFixture(fixtureDef);
+    Fixture fixture = body.createFixture(fixtureDef); // TODO Should this be used somewhere?
 
     // Remember to dispose of any shapes after you're done with them!
     // BodyDef and FixtureDef don't need disposing, but shapes do.
