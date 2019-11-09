@@ -98,9 +98,9 @@ public class PlayerView {
     }
     spriteBatch.draw(
         currentFrame,
-        playerModel.body.getPosition().x - PlayerModel.width / 2,
-        playerModel.body.getPosition().y - PlayerModel.height / 2,
-        PlayerModel.width,
-        PlayerModel.height);
+        playerModel.body.getPosition().x - playerModel.width / 2,
+        playerModel.body.getPosition().y - playerModel.height / 2,
+        playerModel.width,
+        playerModel.height);
   }
 }

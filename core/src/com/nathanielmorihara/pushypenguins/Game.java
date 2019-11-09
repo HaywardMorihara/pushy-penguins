@@ -53,8 +53,8 @@ public class Game extends ApplicationAdapter {
 
 	// Model
 	private PlayerModel playerModel;
-	private float playerStartX = 50f;
-	private float playerStartY = 50f;
+	private float playerStartX = 1f;
+	private float playerStartY = 1f;
 
 	private List<PenguinModel> penguinModels;
 	private float nextPenguinSpawn;
@@ -156,7 +156,8 @@ public class Game extends ApplicationAdapter {
 
 		// TODO Penguin Logic; should be refactored and moved out of here
 		nextPenguinSpawn++;
-		if (nextPenguinSpawn > 10) {
+		// TODO Don't hardcode here
+		if (nextPenguinSpawn > 5) {
 			nextPenguinSpawn = 0;
 			Random random = new Random();
 			float px = random.nextFloat() * mapWidth;

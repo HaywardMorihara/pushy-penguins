@@ -53,6 +53,10 @@ public class PenguinView {
     // Get current frame of animation for the current time
     TextureRegion currentFrame = still;
     currentFrame = walkDownAnimation.getKeyFrame(time, true);
-    spriteBatch.draw(currentFrame, penguinModel.body.getPosition().x - penguinModel.width/2, penguinModel.body.getPosition().y - penguinModel.width/2, penguinModel.width, penguinModel.height);
+    spriteBatch.draw(currentFrame,
+        penguinModel.body.getPosition().x - penguinModel.width/2,
+        penguinModel.body.getPosition().y - penguinModel.width/2,
+        penguinModel.width,
+        penguinModel.height);
   }
 }

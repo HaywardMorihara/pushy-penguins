@@ -17,13 +17,14 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PenguinModel {
 
   // TODO Dynamically set these based on sprite?
-  private static final float minWidthUnscaled = 24f;
-  private static final float maxWidthUnscaled = 60f;
-  private static final float minHeightUnscaled = 32f;
-  private static final float maxHeightUnscaled = 80f;
+  // TODO Adjust these valiues
+  private static final float minWidthUnscaled = 12f;//24
+  private static final float maxWidthUnscaled = 30f;//60
+  private static final float minHeightUnscaled = 16f;//32
+  private static final float maxHeightUnscaled = 40f;//80
 
-  private static final float minSpeedUnscaled = 50f;
-  private static final float maxSpeedUnscaled = 150f;
+  private static final float minSpeedUnscaled = 25f;//50
+  private static final float maxSpeedUnscaled = 75f;//150
 
   public float speed;
   public float width;
@@ -37,11 +38,9 @@ public class PenguinModel {
   // TODO Rename Beavers? Depends on if I decide on that. May not be worth thinking too much about
   // the concept for this prototype game
   public PenguinModel(World world, float scale, float x, float y) {
-    // TODO why aren't collisions working?
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.KinematicBody; // TODO What does this mean? Is this what I want?
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(x, y);
-
     body = world.createBody(bodyDef);
 
     // TODO Refactor, use scale correctly
