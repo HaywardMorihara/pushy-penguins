@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="2">
  <tileset firstgid="1" source="GrassTiles.tsx"/>
  <tileset firstgid="10" source="WaterTiles.tsx"/>
+ <objectgroup id="3" name="Land">
+  <object id="1" x="47" y="0" width="226" height="416" visible="0"/>
+ </objectgroup>
  <layer id="2" name="Tile Layer 1" width="20" height="30">
   <data encoding="csv">
 14,14,15,5,1,5,4,4,7,4,7,5,7,5,7,1,7,13,14,14,
