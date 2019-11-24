@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,9 +31,6 @@ import com.nathanielmorihara.pushypenguins.views.PenguinView;
 import com.nathanielmorihara.pushypenguins.views.PlayerView;
 
 public class Game extends ApplicationAdapter {
-
-	// TODO Player not being initiated?
-	// TODO Proportions of beavers are off?
 
 	// World
 	private World world; // This just holds everything and manages physics. Nothing to do with the view
@@ -150,6 +148,12 @@ public class Game extends ApplicationAdapter {
 	}
 
 	private void update() {
+		// TODO Abstract
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			// TODO Why is this unhappy?
+			System.exit(0);
+		}
+
 		time += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
 		playerController.update(playerModel);
@@ -199,7 +203,6 @@ public class Game extends ApplicationAdapter {
 
 		spriteBatch.end();
 
-		// Debugging
 		if (isDebugMode) {
 			//Create a copy of camera projection matrix
 			Matrix4 debugMatrix;

@@ -12,7 +12,10 @@ import com.nathanielmorihara.pushypenguins.models.PlayerModel;
  * @author nathaniel.morihara
  */
 public class PlayerView {
-  // Constant rows and columns of the sprite sheet
+
+  // TODO Should these have a default?
+  public static float FRAME_WIDTH, FRAME_HEIGHT;
+
   private static final int FRAME_COLS = 3, FRAME_ROWS = 3;
   private static Texture walkSheet;
   private static TextureRegion[] walkDown;
@@ -30,12 +33,13 @@ public class PlayerView {
     // Load the sprite sheet as a Texture
     walkSheet = new Texture(Gdx.files.internal("Trainer.png"));
 
+    FRAME_WIDTH = walkSheet.getWidth() / FRAME_COLS;
+    FRAME_HEIGHT = walkSheet.getHeight() / FRAME_ROWS;
+
     // Use the split utility method to create a 2D array of TextureRegions. This is
     // possible because this sprite sheet contains frames of equal size and they are
     // all aligned.
-    TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-        walkSheet.getWidth() / FRAME_COLS,
-        walkSheet.getHeight() / FRAME_ROWS);
+    TextureRegion[][] tmp = TextureRegion.split(walkSheet, (int) FRAME_WIDTH, (int) FRAME_HEIGHT);
 
     still = tmp[0][1];
 
@@ -62,13 +66,11 @@ public class PlayerView {
     walkLeftAnimation = new Animation<TextureRegion>(0.1f, walkLeft);
 
     walkRight = new TextureRegion[4];
-    int tileWidth = walkSheet.getWidth() / FRAME_COLS;
-    int tileHeight = walkSheet.getHeight() / FRAME_ROWS;
-    walkRight[0] = new TextureRegion(walkSheet, tileWidth * 1, tileHeight * 2, tileWidth, tileHeight);
-    walkRight[1] = new TextureRegion(walkSheet, tileWidth * 2, tileHeight * 2, tileWidth, tileHeight);
-    walkRight[2] = new TextureRegion(walkSheet, tileWidth * 1, tileHeight* 2, tileWidth, tileHeight);
-    walkRight[3] = new TextureRegion(walkSheet, tileWidth * 0, tileHeight* 2, tileWidth, tileHeight);
-    // Needed to make copies for flipping
+    // Need to make copies for flipping
+    walkRight[0] = new TextureRegion(walkSheet, (int) FRAME_WIDTH * 1, (int) FRAME_HEIGHT * 2, (int) FRAME_WIDTH, (int) FRAME_HEIGHT);
+    walkRight[1] = new TextureRegion(walkSheet, (int) FRAME_WIDTH * 2, (int) FRAME_HEIGHT * 2, (int) FRAME_WIDTH, (int) FRAME_HEIGHT);
+    walkRight[2] = new TextureRegion(walkSheet, (int) FRAME_WIDTH * 1, (int) FRAME_HEIGHT* 2, (int) FRAME_WIDTH, (int) FRAME_HEIGHT);
+    walkRight[3] = new TextureRegion(walkSheet, (int) FRAME_WIDTH * 0, (int) FRAME_HEIGHT* 2, (int) FRAME_WIDTH, (int) FRAME_HEIGHT);
     walkRight[0].flip(true, false);
     walkRight[1].flip(true, false);
     walkRight[2].flip(true, false);

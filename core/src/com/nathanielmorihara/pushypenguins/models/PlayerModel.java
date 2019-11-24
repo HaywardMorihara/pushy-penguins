@@ -6,22 +6,18 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.nathanielmorihara.pushypenguins.views.PlayerView;
 
 /**
  * @author nathaniel.morihara
  */
 public class PlayerModel {
 
-  // TODO Dynamically set these based on sprite?
-  // TODO Adjust these values
-  public static final float unscaledWidth = 14f;//28
-  public static final float unscaledHeight = 19f; //38
-
-  public static final float unscaledSpeed = 100f;//200
+  // TODO Play around with these values
+  public static final float unscaledSpeed = 100f;
   public static final float density = 0.5f;
   public static final float friction = 0.4f;
   public static final float restitution = 0.6f;
-  public static final float linearImpulse = 1f;
 
   public float width;
   public float height;
@@ -29,16 +25,14 @@ public class PlayerModel {
 
   public Body body;
 
-  // TODO Bug: Isn't being created anymore?
-  // TODO Make use of scale
   public PlayerModel(World world, float scale, float x, float y) {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.position.set(x, y);
     body = world.createBody(bodyDef);
 
-    width = unscaledWidth * scale;
-    height = unscaledHeight * scale;
+    width = PlayerView.FRAME_WIDTH * scale;
+    height = PlayerView.FRAME_HEIGHT * scale;
     speed = unscaledSpeed * scale;
 
     // Create a circle shape and set its radius to 6

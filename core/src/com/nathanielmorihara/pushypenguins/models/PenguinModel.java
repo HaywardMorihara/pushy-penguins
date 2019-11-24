@@ -10,25 +10,23 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.nathanielmorihara.pushypenguins.views.PenguinView;
 
 /**
  * @author nathaniel.morihara
  */
 public class PenguinModel {
 
-  // TODO Dynamically set these based on sprite?
-  // TODO Adjust these valiues
-  private static final float minWidthUnscaled = 12f;//24
-  private static final float maxWidthUnscaled = 30f;//60
-  private static final float minHeightUnscaled = 16f;//32
-  private static final float maxHeightUnscaled = 40f;//80
-
-  private static final float minSpeedUnscaled = 25f;//50
-  private static final float maxSpeedUnscaled = 75f;//150
+  // TODO Play around with these values
+  private static final float minScale = 1f;
+  private static final float maxScale = 3f;
+  private static final float minSpeedUnscaled = 25f;
+  private static final float maxSpeedUnscaled = 75f;
 
   public float speed;
   public float width;
   public float height;
+  // TODO Play around with these values
   public float density = 0.5f;
   public float friction = 0.4f;
   public float restitution = 0.6f;
@@ -46,8 +44,11 @@ public class PenguinModel {
     // TODO Refactor, use scale correctly
     Random random = new Random();
     float randScale = random.nextFloat();
-    width = minWidthUnscaled * scale + randScale * scale * (maxWidthUnscaled - minWidthUnscaled);
-    height = minHeightUnscaled * scale + randScale * scale * (maxHeightUnscaled - minHeightUnscaled);
+
+    // TODO Should this error if not set? or have a default?
+    // TODO Change so the probabiliy isn't evenly distributed
+    width = PenguinView.FRAME_WIDTH * scale * ((randScale * (maxScale - minScale)) + minScale);
+    height = PenguinView.FRAME_HEIGHT * scale * ((randScale * (maxScale - minScale)) + minScale);
 
     CircleShape circle = new CircleShape();
     circle.setRadius(width / 2);

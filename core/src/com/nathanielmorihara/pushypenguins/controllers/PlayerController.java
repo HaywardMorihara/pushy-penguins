@@ -8,8 +8,6 @@ import com.nathanielmorihara.pushypenguins.models.PlayerModel;
 public class PlayerController {
 
   public void update(PlayerModel playerModel) {
-    Vector2 pos = playerModel.body.getPosition();
-
     // TODO Refactor
     if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
       playerModel.body.setLinearVelocity(0, playerModel.speed);
@@ -23,9 +21,6 @@ public class PlayerController {
     else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
       playerModel.body.setLinearVelocity(playerModel.speed, 0);
     } else {
-      // TODO But...wouldn't this prevent player from getting pushed? Meh, it actually seems okay.
-      // May want to tweak it though
-      // Also I know its weird so the user can still move in x if start pressing y
       playerModel.body.setLinearVelocity(0,0);
     }
   }
