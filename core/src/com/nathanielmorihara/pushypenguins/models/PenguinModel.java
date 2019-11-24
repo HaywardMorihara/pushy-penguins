@@ -18,8 +18,8 @@ import com.nathanielmorihara.pushypenguins.views.PenguinView;
 public class PenguinModel {
 
   // TODO Play around with these values
-  private static final float minScale = 1f;
-  private static final float maxScale = 3f;
+  private static final float minRandScale = 1f;
+  private static final float maxRandScale = 3f;
   private static final float minSpeedUnscaled = 25f;
   private static final float maxSpeedUnscaled = 75f;
 
@@ -43,19 +43,20 @@ public class PenguinModel {
 
     // TODO Refactor, use scale correctly
     Random random = new Random();
-    float randScale = random.nextFloat();
+    float tempRandScale = random.nextFloat();
+    float randScale = (tempRandScale * (maxRandScale - minRandScale)) + minRandScale;
 
     // TODO Should this error if not set? or have a default?
     // TODO Change so the probabiliy isn't evenly distributed
-    width = PenguinView.FRAME_WIDTH * scale * ((randScale * (maxScale - minScale)) + minScale);
-    height = PenguinView.FRAME_HEIGHT * scale * ((randScale * (maxScale - minScale)) + minScale);
+    width = PenguinView.FRAME_WIDTH * scale * randScale;
+    height = PenguinView.FRAME_HEIGHT * scale * randScale;
 
     CircleShape circle = new CircleShape();
     circle.setRadius(width / 2);
 
     FixtureDef fixtureDef = new FixtureDef();
     fixtureDef.shape = circle;
-    fixtureDef.density = density;
+    fixtureDef.density = density * randScale;
     fixtureDef.friction = friction;
     fixtureDef.restitution = restitution; // Make it bounce a little bit
 

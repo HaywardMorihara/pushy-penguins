@@ -14,7 +14,7 @@ import com.nathanielmorihara.pushypenguins.views.PlayerView;
 public class PlayerModel {
 
   // TODO Play around with these values
-  public static final float unscaledSpeed = 100f;
+  public static final float unscaledSpeed = 75f;
   public static final float density = 0.5f;
   public static final float friction = 0.4f;
   public static final float restitution = 0.6f;
