@@ -49,6 +49,7 @@ public class PenguinModel {
 
     // TODO Should this error if not set? or have a default?
     // TODO Change so the probabiliy isn't evenly distributed
+    // TODO Fewer big beavers
     width = PenguinView.FRAME_WIDTH * scale * randScale;
     height = PenguinView.FRAME_HEIGHT * scale * randScale;
 

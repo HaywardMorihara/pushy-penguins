@@ -7,7 +7,6 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,8 +17,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -54,8 +53,8 @@ public class Game extends ApplicationAdapter {
 
 	// Model
 	private PlayerModel playerModel;
-	private float playerStartX = 1f;
-	private float playerStartY = 1f;
+	private float playerStartX;
+	private float playerStartY;
 
 	private List<PenguinModel> penguinModels;
 	private float nextPenguinSpawn;
@@ -120,6 +119,8 @@ public class Game extends ApplicationAdapter {
 		// Game Start
 		time = 0f;
 		nextPenguinSpawn = 0f;
+		playerStartX = mapWidth / 2;
+		playerStartY = land.getRectangle().y + (PlayerView.FRAME_HEIGHT * unitScale);
 		playerModel = new PlayerModel(world, unitScale, playerStartX, playerStartY);
 		penguinModels = new ArrayList<PenguinModel>();
 
@@ -169,6 +170,13 @@ public class Game extends ApplicationAdapter {
 
 		time += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
+		// TODO Move this meta-player logic?
+		if (!isBodyOnLand(playerModel.body, land)) {
+			// TODO Game Over Screen
+			// TODO Can't destroy now or else Box2D unhappy that no bodies...
+			// world.destroyBody(playerModel.body);
+			System.exit(0);
+		}
 		playerController.update(playerModel);
 
 		// TODO Penguin Logic; should be refactored and moved out of here. A general penguin controller?
@@ -190,7 +198,7 @@ public class Game extends ApplicationAdapter {
 		Iterator itr = penguinModels.iterator();
 		while (itr.hasNext()) {
 			PenguinModel penguinModel = (PenguinModel) itr.next();
-			if (!isPenguinOnLand(penguinModel, land)) {
+			if (!isBodyOnLand(penguinModel.body, land)) {
 				world.destroyBody(penguinModel.body);
 				itr.remove();
 			} else {
@@ -231,12 +239,11 @@ public class Game extends ApplicationAdapter {
 		}
 	}
 
-	private boolean isPenguinOnLand(PenguinModel p, RectangleMapObject land) {
-		boolean isRightOfLeftEdge = p.body.getPosition().x > land.getRectangle().getX();
-		boolean isLeftOfRightEdge = p.body.getPosition().x < (land.getRectangle().getX()
+	private boolean isBodyOnLand(Body b, RectangleMapObject land) {
+		boolean isRightOfLeftEdge = b.getPosition().x > land.getRectangle().getX();
+		boolean isLeftOfRightEdge = b.getPosition().x < (land.getRectangle().getX()
 				+ land.getRectangle().getWidth());
-		boolean isAboveBottomEdge = p.body.getPosition().y > (land.getRectangle().getY()
-				- land.getRectangle().getHeight());
+		boolean isAboveBottomEdge = b.getPosition().y > land.getRectangle().getY();
 		return isRightOfLeftEdge && isLeftOfRightEdge && isAboveBottomEdge;
 	}
 }
