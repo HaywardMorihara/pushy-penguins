@@ -12,11 +12,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -42,6 +44,7 @@ public class Game extends ApplicationAdapter {
 	private float unitScale; // 1 over tile height/width. When passed in, makes coordinates tile-based instead of pixel-based
 	private float mapWidth;
 	private float mapHeight;
+	private RectangleMapObject land;
 
 	// Camera
 	private OrthographicCamera camera; // Controls the area of the map that you can see (?)
@@ -97,6 +100,11 @@ public class Game extends ApplicationAdapter {
 		}
 		unitScale = (float) 1 / tileHeight;
 
+		// Get Land details
+		// TODO Give this a name in tiled?
+		int landIndex = 0;
+		land = ((RectangleMapObject) tiledMap.getLayers().get("Land").getObjects().get(landIndex));
+
 		// Camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, mapWidth, mapHeight);
@@ -148,11 +156,11 @@ public class Game extends ApplicationAdapter {
 	}
 
 	private void update() {
-		// TODO Abstract
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-			// TODO Why is this unhappy?
-			System.exit(0);
-		}
+		// TODO Put back and Abstract if do fullscreen again
+//		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+//			// TODO Why is this unhappy?
+//			System.exit(0);
+//		}
 
 		time += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
@@ -164,7 +172,11 @@ public class Game extends ApplicationAdapter {
 		if (nextPenguinSpawn > 5) {
 			nextPenguinSpawn = 0;
 			Random random = new Random();
-			float px = random.nextFloat() * mapWidth;
+			// TODO Calculate the land values elsewhere to simplify things
+			// TODO Account for player width
+			float landLeftX = land.getRectangle().getX();
+			float landWidth = land.getRectangle().getWidth();
+			float px = (landLeftX * unitScale) + (random.nextFloat() * landWidth * unitScale);
 			float py = mapHeight;
 			PenguinModel p = new PenguinModel(world, unitScale, px, py);
 			penguinModels.add(p);
