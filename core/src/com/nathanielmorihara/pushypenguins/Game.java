@@ -104,6 +104,11 @@ public class Game extends ApplicationAdapter {
 		// TODO Give this a name in tiled?
 		int landIndex = 0;
 		land = ((RectangleMapObject) tiledMap.getLayers().get("Land").getObjects().get(landIndex));
+		// TODO better way of doing this?
+		land.getRectangle().setX(land.getRectangle().getX() * unitScale);
+		land.getRectangle().setY(land.getRectangle().getY() * unitScale);
+		land.getRectangle().setWidth(land.getRectangle().getWidth() * unitScale);
+		land.getRectangle().setHeight(land.getRectangle().getHeight() * unitScale);
 
 		// Camera
 		camera = new OrthographicCamera();
@@ -166,17 +171,18 @@ public class Game extends ApplicationAdapter {
 
 		playerController.update(playerModel);
 
-		// TODO Penguin Logic; should be refactored and moved out of here
+		// TODO Penguin Logic; should be refactored and moved out of here. A general penguin controller?
 		nextPenguinSpawn++;
 		// TODO Don't hardcode here
-		if (nextPenguinSpawn > 5) {
+		if (nextPenguinSpawn > 7) {
 			nextPenguinSpawn = 0;
 			Random random = new Random();
 			// TODO Calculate the land values elsewhere to simplify things
 			// TODO Account for player width
+			// TODO Make a "Land" class? Meh, I don't think it has anything except location right now. Unless wanted some collision detection or something
 			float landLeftX = land.getRectangle().getX();
 			float landWidth = land.getRectangle().getWidth();
-			float px = (landLeftX * unitScale) + (random.nextFloat() * landWidth * unitScale);
+			float px = landLeftX + (random.nextFloat() * landWidth);
 			float py = mapHeight;
 			PenguinModel p = new PenguinModel(world, unitScale, px, py);
 			penguinModels.add(p);
@@ -184,7 +190,7 @@ public class Game extends ApplicationAdapter {
 		Iterator itr = penguinModels.iterator();
 		while (itr.hasNext()) {
 			PenguinModel penguinModel = (PenguinModel) itr.next();
-			if (penguinModel.body.getPosition().y < 0) {
+			if (!isPenguinOnLand(penguinModel, land)) {
 				world.destroyBody(penguinModel.body);
 				itr.remove();
 			} else {
@@ -223,5 +229,14 @@ public class Game extends ApplicationAdapter {
 			debugMatrix.scale(1f, 100f, 1f);
 			debugRenderer.render(world, camera.combined);
 		}
+	}
+
+	private boolean isPenguinOnLand(PenguinModel p, RectangleMapObject land) {
+		boolean isRightOfLeftEdge = p.body.getPosition().x > land.getRectangle().getX();
+		boolean isLeftOfRightEdge = p.body.getPosition().x < (land.getRectangle().getX()
+				+ land.getRectangle().getWidth());
+		boolean isAboveBottomEdge = p.body.getPosition().y > (land.getRectangle().getY()
+				- land.getRectangle().getHeight());
+		return isRightOfLeftEdge && isLeftOfRightEdge && isAboveBottomEdge;
 	}
 }

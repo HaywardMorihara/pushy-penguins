@@ -20,13 +20,14 @@ public class PenguinModel {
   // TODO Play around with these values
   private static final float minRandScale = 1f;
   private static final float maxRandScale = 3f;
-  private static final float minSpeedUnscaled = 25f;
-  private static final float maxSpeedUnscaled = 75f;
+  private static final float minSpeedUnscaled = 5f;
+  private static final float maxSpeedUnscaled = 100f;
 
   public float speed;
   public float width;
   public float height;
   // TODO Play around with these values
+  // TODO Bigger beavers should usually be slower
   public float density = 0.5f;
   public float friction = 0.4f;
   public float restitution = 0.6f;
