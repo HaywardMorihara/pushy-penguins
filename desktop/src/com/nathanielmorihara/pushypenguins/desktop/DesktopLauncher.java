@@ -2,7 +2,7 @@ package com.nathanielmorihara.pushypenguins.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.nathanielmorihara.pushypenguins.Game;
+import com.nathanielmorihara.pushypenguins.Main;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		// TODO Figure out how to implement this, but so that it doesn't seem so hacky
 		// (difficult to exit) and it freaks out when you try to debug
 		// config.fullscreen = true;
-		new LwjglApplication(new Game(), config);
+		new LwjglApplication(new Main(), config);
 	}
 }

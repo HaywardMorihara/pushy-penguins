@@ -3,7 +3,7 @@ package com.nathanielmorihara.pushypenguins.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.nathanielmorihara.pushypenguins.Game;
+import com.nathanielmorihara.pushypenguins.Main;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +46,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new Game();
+                return new Main();
         }
 }
