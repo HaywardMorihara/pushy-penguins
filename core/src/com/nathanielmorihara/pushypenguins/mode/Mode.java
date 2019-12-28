@@ -8,19 +8,17 @@ package com.nathanielmorihara.pushypenguins.mode;
  */
 public interface Mode {
 
-  void create();
+  void dispose();
+
+  void resize(int width, int height);
 
   void update();
 
-  void draw();
+  Mode changeMode();
 
-  void resize(int width, int height);
+  void draw();
 
   void pause();
 
   void resume();
-
-  void dispose();
-
-  Mode change();
 }

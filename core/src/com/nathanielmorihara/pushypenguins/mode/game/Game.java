@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -29,6 +31,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nathanielmorihara.pushypenguins.controllers.PenguinController;
 import com.nathanielmorihara.pushypenguins.controllers.PlayerController;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
+import com.nathanielmorihara.pushypenguins.mode.menu.MainMenu;
+import com.nathanielmorihara.pushypenguins.mode.menu.PauseMenu;
 import com.nathanielmorihara.pushypenguins.models.PenguinModel;
 import com.nathanielmorihara.pushypenguins.models.PlayerModel;
 import com.nathanielmorihara.pushypenguins.views.PenguinView;
@@ -71,9 +75,11 @@ public class Game implements Mode {
 
   // View
   private SpriteBatch spriteBatch;
-
   private PlayerView playerView;
   private PenguinView penguinView;
+
+  // Mode
+  private Mode modeReplacement;
 
   public Game() {
     playerController = new PlayerController();
@@ -81,10 +87,7 @@ public class Game implements Mode {
 
     playerView = new PlayerView();
     penguinView = new PenguinView();
-  }
 
-  @Override
-  public void create() {
     // Load Assets
     PlayerView.load();
     PenguinView.load();
@@ -134,6 +137,20 @@ public class Game implements Mode {
     spriteBatch = new SpriteBatch();
   }
 
+  // TODO How to make sure gets called?
+  @Override
+  public void dispose() { // SpriteBatches and Textures must always be disposed
+    world.dispose();
+
+    tiledMap.dispose();
+
+    debugRenderer.dispose();
+
+    spriteBatch.dispose();
+    PlayerView.dispose();
+    PenguinView.dispose();
+  }
+
   @Override
   public void resize (int width, int height) {
     this.viewport.update(width, height);
@@ -148,13 +165,6 @@ public class Game implements Mode {
   }
 
   @Override
-  public void dispose() { // SpriteBatches and Textures must always be disposed
-    PlayerView.dispose();
-    PenguinView.dispose();
-    debugRenderer.dispose();
-  }
-
-  @Override
   public void update() {
     // TODO Put back and Abstract if do fullscreen again
     //		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -166,10 +176,13 @@ public class Game implements Mode {
 
     // TODO Move this meta-player logic?
     if (!isBodyOnLand(playerModel.body, land)) {
-      // TODO Main Over Screen
+      // TODO Game Over Screen
       // TODO Can't destroy now or else Box2D unhappy that no bodies...
       // world.destroyBody(playerModel.body);
-      System.exit(0);
+      // System.exit(0);
+      modeReplacement = new MainMenu();
+      this.dispose();
+      return;
     }
     playerController.update(playerModel);
 
@@ -202,12 +215,28 @@ public class Game implements Mode {
 
     // TODO Where should this be? Is this a good calculation? Saw some fancier stuff here https://github.com/libgdx/libgdx/wiki/Box2d
     world.step(1/60f, 6, 2);
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+      modeReplacement = new PauseMenu(this);
+    }
+  }
+
+  @Override
+  public Mode changeMode() {
+    if (modeReplacement != null) {
+      Mode retVal = modeReplacement;
+      modeReplacement = null;
+      return retVal;
+    }
+    return null;
   }
 
   @Override
   public void draw() {
     Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
+
+
 
     camera.update();
     tiledMapRenderer.setView(camera);
@@ -232,12 +261,6 @@ public class Game implements Mode {
       debugMatrix.scale(1f, 100f, 1f);
       debugRenderer.render(world, camera.combined);
     }
-  }
-
-
-  @Override
-  public Mode change() {
-    return null;
   }
 
   private boolean isBodyOnLand(Body b, RectangleMapObject land) {

@@ -15,25 +15,22 @@ import com.nathanielmorihara.pushypenguins.mode.game.Game;
 /**
  * @author nathaniel.morihara
  */
-public class Menu implements Mode {
-
-  // TODO Make the Menu nicer
+public class PauseMenu implements Mode {
 
   private SpriteBatch batch;
   private BitmapFont font;
+  private boolean shouldUnpause = false;
+  private Game game;
 
-  private String text = "Press Enter to Start";
+  public PauseMenu(Game game) {
+    this.game = game;
 
-  private Mode modeReplacement;
-
-  @Override
-  public void create() {
     batch = new SpriteBatch();
     font = new BitmapFont();
     font.setColor(Color.RED);
-
   }
 
+  // TODO How to Make sure it gets called?
   @Override
   public void dispose() {
     batch.dispose();
@@ -41,11 +38,24 @@ public class Menu implements Mode {
   }
 
   @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void update() {
-    if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-      text = "Starting game...";
-      modeReplacement = new Game();
+    if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+      shouldUnpause = true;
     }
+  }
+
+  @Override
+  public Mode changeMode() {
+    if (shouldUnpause) {
+      this.dispose();
+      return game;
+    }
+    return null;
   }
 
   @Override
@@ -54,13 +64,8 @@ public class Menu implements Mode {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
 
     batch.begin();
-    font.draw(batch, text, 200, 200);
+    font.draw(batch, "Paused", 200, 200);
     batch.end();
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
   }
 
   @Override
@@ -71,15 +76,5 @@ public class Menu implements Mode {
   @Override
   public void resume() {
 
-  }
-
-  @Override
-  public Mode change() {
-    if (modeReplacement != null) {
-      modeReplacement.create();
-      modeReplacement.resize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-      return modeReplacement;
-    }
-    return null;
   }
 }
