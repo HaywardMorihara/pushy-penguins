@@ -11,14 +11,15 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 2. Because I want a small game to develop to completion.
 3. Because I think Pushy Penguins is a fun, simple game that can be played with other people.
 
-## To Do (intermediate goals/deadlines):
-1. (Feb) Single player (menu, Timer, Scoring)
+## To Do:
+1. (Feb) Single player (Timer, Scoring)
 2. (Feb) Difficulty, make it fun
-3. (Mar, Apr, May) Polishing (Concept, Music, Sprites)
+3. (Mar, Apr, May) Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites)
 4. (Jun, Jul) Controls
 5. (Aug) Multiplayer (win condition, teams?)
 6. (Sep, Oct) Release to store
 7. (Nov, Dec) More features? (weapons, power ups...)
+8. (?) Write tests
 
 ## Tools:
 - Java on [LibGDX](https://github.com/libgdx/libgdx/wiki)
