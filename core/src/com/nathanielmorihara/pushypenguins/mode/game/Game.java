@@ -10,10 +10,14 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -60,6 +64,12 @@ public class Game implements Mode {
   private Viewport viewport; // Manages a Camera and determines how world coordinates are mapped to and from the screen
   private TiledMapRenderer tiledMapRenderer; // Does stuff to control the Camera...(how different from Viewport?)
   private Box2DDebugRenderer debugRenderer;
+
+  // Text
+  private BitmapFont timerFont;
+  private final float TIMER_SCALE = 1f;
+  private final float TIMER_POS_PER_WIDTH = 0.05f;
+  private final float TIMER_POS_PER_HEIGHT = 0.05f;
 
   // Model
   private PlayerModel playerModel;
@@ -124,6 +134,16 @@ public class Game implements Mode {
     viewport = new FitViewport(mapWidth, mapHeight, camera);
     tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, unitScale);
     debugRenderer = new Box2DDebugRenderer();
+
+    // Text
+    FreeTypeFontGenerator gen =
+        new FreeTypeFontGenerator(Gdx.files.internal("pokemon_font.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter timerFontParams =
+        new FreeTypeFontGenerator.FreeTypeFontParameter();
+    timerFont = gen.generateFont(timerFontParams);
+    timerFont.setUseIntegerPositions(false); // https://issue.life/questions/35945910
+    timerFont.getData().setScale(unitScale * TIMER_SCALE);
+    gen.dispose(); // Don't dispose if doing incremental glyph generation.
 
     // Main Start
     time = 0f;
@@ -248,6 +268,13 @@ public class Game implements Mode {
     for (PenguinModel p : penguinModels) {
       penguinView.draw(spriteBatch, time, p);
     }
+
+    timerFont.draw(
+      spriteBatch,
+        "Time:  " + String.valueOf((int) time),
+      mapWidth * TIMER_POS_PER_WIDTH,
+      mapHeight * TIMER_POS_PER_HEIGHT
+    );
 
     spriteBatch.end();
 
