@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nathanielmorihara.pushypenguins.controllers.PenguinController;
 import com.nathanielmorihara.pushypenguins.controllers.PlayerController;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
+import com.nathanielmorihara.pushypenguins.mode.menu.GameOverMenuMode;
 import com.nathanielmorihara.pushypenguins.mode.menu.MainMenuMode;
 import com.nathanielmorihara.pushypenguins.mode.menu.PauseMenuMode;
 import com.nathanielmorihara.pushypenguins.models.PenguinModel;
@@ -96,6 +97,7 @@ public class GameMode implements Mode {
     penguinView = new PenguinView();
 
     // Load Assets
+    // TODO At some point, this should probably be done on game startup...right?
     PlayerView.load();
     PenguinView.load();
 
@@ -191,12 +193,10 @@ public class GameMode implements Mode {
 
     // TODO Move this meta-player logic?
     if (!isBodyOnLand(playerModel.body, land)) {
-      // TODO GameMode Over Screen <-
-      // TODO Save score
       // TODO Can't destroy now or else Box2D unhappy that no bodies...
       // world.destroyBody(playerModel.body);
       // System.exit(0);
-      modeReplacement = new MainMenuMode();
+      modeReplacement = new GameOverMenuMode(time);
       this.dispose();
       return;
     }

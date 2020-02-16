@@ -3,12 +3,10 @@
  */
 package com.nathanielmorihara.pushypenguins.mode.menu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,9 +14,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nathanielmorihara.pushypenguins.io.HighScoreFileHandler;
 import com.nathanielmorihara.pushypenguins.json.Score;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
 
@@ -40,6 +38,8 @@ public class HighScoreMenuMode implements Mode {
   private SpriteBatch batch;
 
   private Mode modeReplacement;
+
+  private HighScoreFileHandler highScoreFileHandler;
 
   public HighScoreMenuMode() {
     // Text
@@ -65,17 +65,9 @@ public class HighScoreMenuMode implements Mode {
 
     batch = new SpriteBatch();
 
-    FileHandle fileHandle = Gdx.files.local("data/high_scores.json");
-    if (!fileHandle.exists()) {
-      Json json = new Json();
-      List emptyScores = new ArrayList();
-      for (int i = 0; i < 10; i++) {
-        Score emptyScore = new Score();
-        emptyScore.setScore(0);
-        emptyScore.setOwner("Murphy");
-        emptyScores.add(json.prettyPrint(emptyScore));
-      }
-      fileHandle.writeString(json.toJson(emptyScores), false);
+    highScoreFileHandler = new HighScoreFileHandler();
+    if (!highScoreFileHandler.existsHighScoreFile()) {
+      highScoreFileHandler.initializeEmptyScores();
     }
   }
 
@@ -123,20 +115,20 @@ public class HighScoreMenuMode implements Mode {
         (camera.viewportWidth / 2) - (titleLayout.width / 2),
         camera.viewportHeight * 9 / 10);
 
-    Json json = new Json();
-    List<String> list = json.fromJson(List.class, Gdx.files.local("data/high_scores.json"));
-    int scoreNumber = 1;
-    for (String v : list) {
-      Score score = json.fromJson(Score.class, v);
+    List<Score> highScores = highScoreFileHandler.readHighScores();
+    for (Score score : highScores) {
+      int index =  highScores.indexOf(score);
       GlyphLayout scoreLayout = new GlyphLayout(
           scoreFont,
-          String.format("%s: %s (%s)", scoreNumber, score.getScore(), score.getOwner())); // TODO Why is this unhappy?
+          String.format("%s: %s (%s)",
+              index + 1,
+              score.getScore(),
+              score.getOwner())); // TODO Why is this unhappy?
       scoreFont.draw(
           batch,
           scoreLayout,
           (camera.viewportWidth / 2) - (scoreLayout.width / 2),
-          camera.viewportHeight  * (8f / 10f) * ((11 - scoreNumber) / 10f));
-      scoreNumber += 1;
+          camera.viewportHeight  * (8f / 10f) * ((10 - index) / 10f));
     }
 
     batch.end();

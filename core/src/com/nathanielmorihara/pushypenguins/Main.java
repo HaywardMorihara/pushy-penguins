@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
 import com.nathanielmorihara.pushypenguins.mode.menu.MainMenuMode;
 
+// The main game loop. All modes (menus, actual game) are called from here
 public class Main extends ApplicationAdapter {
 
 	private Mode mode;

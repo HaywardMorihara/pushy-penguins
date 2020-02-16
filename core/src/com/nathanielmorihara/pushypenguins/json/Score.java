@@ -10,6 +10,14 @@ public class Score {
   private int score;
   private String owner;
 
+  // Empty constructor needed for serialization
+  public Score() {}
+
+  public Score(int score, String owner) {
+    this.score = score;
+    this.owner = owner;
+  }
+
   public int getScore() {
     return score;
   }

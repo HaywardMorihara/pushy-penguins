@@ -13,8 +13,8 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 
 ## To Do:
 1. (Feb) Single player
-  b. Write to high score file on game over
-  c. Game over enter text name of player
+  d. Score placement in context of other scores
+  e. enter text name of player
 2. (Feb) Difficulty, make it fun
 3. (Mar, Apr) Controls
 4. (May) Multiplayer (win condition, teams?)
