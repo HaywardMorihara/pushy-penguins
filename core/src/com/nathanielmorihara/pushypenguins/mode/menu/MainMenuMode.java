@@ -11,21 +11,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
-import com.nathanielmorihara.pushypenguins.mode.game.Game;
+import com.nathanielmorihara.pushypenguins.mode.game.GameMode;
 
 /**
  * @author nathaniel.morihara
  */
-public class MainMenu implements Mode {
+public class MainMenuMode implements Mode {
 
-  // TODO Make the MainMenu nicer
+  // TODO Make the menu nicer
+
   private final String TEXT_TITLE = "Pushy Penguins";
   private final float SCALE_TITLE = 3f;
-  private final String TEXT_START_SINGLE_PLAYER = "Press Enter to Start Single Player";
+  private final String TEXT_OPTION_SINGLE_PLAYER = "Press Enter to Start Single Player";
+  private final String TEXT_OPTION_HIGH_SCORES = "Press 'H' to see High Scores";
   private final float SCALE_OPTION = 1f;
 
   private BitmapFont titleFont;
@@ -39,7 +40,7 @@ public class MainMenu implements Mode {
   private Mode modeReplacement;
 
 
-  public MainMenu() {
+  public MainMenuMode() {
     titleFont = new BitmapFont();
     titleFont.setColor(Color.BLUE);
     titleFont.getData().setScale(SCALE_TITLE);
@@ -70,8 +71,12 @@ public class MainMenu implements Mode {
 
   @Override
   public void update() {
-    if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-      modeReplacement = new Game();
+    // TODO Menu selection with cursor
+    if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+      modeReplacement = new GameMode();
+    }
+    if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+      modeReplacement = new HighScoreMenuMode();
     }
   }
 
@@ -100,12 +105,19 @@ public class MainMenu implements Mode {
         (camera.viewportWidth / 2) - (titleLayout.width / 2),
         camera.viewportHeight * 2 / 3);
 
-    GlyphLayout singlePlayerOptionLayout = new GlyphLayout(optionFont, TEXT_START_SINGLE_PLAYER);
+    GlyphLayout singlePlayerOptionLayout = new GlyphLayout(optionFont, TEXT_OPTION_SINGLE_PLAYER);
     optionFont.draw(
         batch,
         singlePlayerOptionLayout,
         (camera.viewportWidth / 2) - (singlePlayerOptionLayout.width / 2),
         camera.viewportHeight / 3);
+
+    GlyphLayout highScoreOptionLayout = new GlyphLayout(optionFont, TEXT_OPTION_HIGH_SCORES);
+    optionFont.draw(
+        batch,
+        highScoreOptionLayout,
+        (camera.viewportWidth / 2) - (singlePlayerOptionLayout.width / 2),
+        camera.viewportHeight / 4);
     batch.end();
   }
 

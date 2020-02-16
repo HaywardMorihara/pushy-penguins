@@ -10,20 +10,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
-import com.nathanielmorihara.pushypenguins.mode.game.Game;
+import com.nathanielmorihara.pushypenguins.mode.game.GameMode;
 
 /**
  * @author nathaniel.morihara
  */
-public class PauseMenu implements Mode {
+public class PauseMenuMode implements Mode {
 
   private SpriteBatch batch;
   private BitmapFont font;
   private boolean shouldUnpause = false;
-  private Game game;
+  private GameMode gameMode;
 
-  public PauseMenu(Game game) {
-    this.game = game;
+  public PauseMenuMode(GameMode gameMode) {
+    this.gameMode = gameMode;
 
     batch = new SpriteBatch();
     font = new BitmapFont();
@@ -53,7 +53,7 @@ public class PauseMenu implements Mode {
   public Mode changeMode() {
     if (shouldUnpause) {
       this.dispose();
-      return game;
+      return gameMode;
     }
     return null;
   }

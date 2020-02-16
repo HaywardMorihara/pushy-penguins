@@ -3,7 +3,7 @@ package com.nathanielmorihara.pushypenguins;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
-import com.nathanielmorihara.pushypenguins.mode.menu.MainMenu;
+import com.nathanielmorihara.pushypenguins.mode.menu.MainMenuMode;
 
 public class Main extends ApplicationAdapter {
 
@@ -11,7 +11,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		mode = new MainMenu();
+		mode = new MainMenuMode();
 	}
 
 	// This method is called every time the mode screen is re-sized and the mode is not in the paused state. It is also called once just after the create() method.

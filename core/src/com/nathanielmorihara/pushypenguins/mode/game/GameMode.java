@@ -10,12 +10,9 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapProperties;
@@ -35,8 +32,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nathanielmorihara.pushypenguins.controllers.PenguinController;
 import com.nathanielmorihara.pushypenguins.controllers.PlayerController;
 import com.nathanielmorihara.pushypenguins.mode.Mode;
-import com.nathanielmorihara.pushypenguins.mode.menu.MainMenu;
-import com.nathanielmorihara.pushypenguins.mode.menu.PauseMenu;
+import com.nathanielmorihara.pushypenguins.mode.menu.MainMenuMode;
+import com.nathanielmorihara.pushypenguins.mode.menu.PauseMenuMode;
 import com.nathanielmorihara.pushypenguins.models.PenguinModel;
 import com.nathanielmorihara.pushypenguins.models.PlayerModel;
 import com.nathanielmorihara.pushypenguins.views.PenguinView;
@@ -45,7 +42,7 @@ import com.nathanielmorihara.pushypenguins.views.PlayerView;
 /**
  * @author nathaniel.morihara
  */
-public class Game implements Mode {
+public class GameMode implements Mode {
 
   // World
   private World world; // This just holds everything and manages physics. Nothing to do with the view
@@ -91,7 +88,7 @@ public class Game implements Mode {
   // Mode
   private Mode modeReplacement;
 
-  public Game() {
+  public GameMode() {
     playerController = new PlayerController();
     penguinController = new PenguinController();
 
@@ -138,9 +135,7 @@ public class Game implements Mode {
     // Text
     FreeTypeFontGenerator gen =
         new FreeTypeFontGenerator(Gdx.files.internal("pokemon_font.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter timerFontParams =
-        new FreeTypeFontGenerator.FreeTypeFontParameter();
-    timerFont = gen.generateFont(timerFontParams);
+    timerFont = gen.generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
     timerFont.setUseIntegerPositions(false); // https://issue.life/questions/35945910
     timerFont.getData().setScale(unitScale * TIMER_SCALE);
     gen.dispose(); // Don't dispose if doing incremental glyph generation.
@@ -196,11 +191,12 @@ public class Game implements Mode {
 
     // TODO Move this meta-player logic?
     if (!isBodyOnLand(playerModel.body, land)) {
-      // TODO Game Over Screen
+      // TODO GameMode Over Screen <-
+      // TODO Save score
       // TODO Can't destroy now or else Box2D unhappy that no bodies...
       // world.destroyBody(playerModel.body);
       // System.exit(0);
-      modeReplacement = new MainMenu();
+      modeReplacement = new MainMenuMode();
       this.dispose();
       return;
     }
@@ -237,7 +233,7 @@ public class Game implements Mode {
     world.step(1/60f, 6, 2);
 
     if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-      modeReplacement = new PauseMenu(this);
+      modeReplacement = new PauseMenuMode(this);
     }
   }
 
