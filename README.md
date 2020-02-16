@@ -13,7 +13,6 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 
 ## To Do:
 1. (Feb) Single player
-  a. Make high score file if it does not exist
   b. Write to high score file on game over
   c. Game over enter text name of player
 2. (Feb) Difficulty, make it fun

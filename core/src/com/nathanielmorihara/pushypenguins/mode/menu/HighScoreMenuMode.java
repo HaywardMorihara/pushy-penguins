@@ -3,10 +3,12 @@
  */
 package com.nathanielmorihara.pushypenguins.mode.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -63,7 +65,18 @@ public class HighScoreMenuMode implements Mode {
 
     batch = new SpriteBatch();
 
-    // TODO Make high score file if it does not exist
+    FileHandle fileHandle = Gdx.files.local("data/high_scores.json");
+    if (!fileHandle.exists()) {
+      Json json = new Json();
+      List emptyScores = new ArrayList();
+      for (int i = 0; i < 10; i++) {
+        Score emptyScore = new Score();
+        emptyScore.setScore(0);
+        emptyScore.setOwner("Murphy");
+        emptyScores.add(json.prettyPrint(emptyScore));
+      }
+      fileHandle.writeString(json.toJson(emptyScores), false);
+    }
   }
 
   @Override
@@ -111,10 +124,10 @@ public class HighScoreMenuMode implements Mode {
         camera.viewportHeight * 9 / 10);
 
     Json json = new Json();
-    List<JsonValue> list = json.fromJson(List.class, Gdx.files.internal("data/high_scores.json"));
+    List<String> list = json.fromJson(List.class, Gdx.files.local("data/high_scores.json"));
     int scoreNumber = 1;
-    for (JsonValue v : list) {
-      Score score = json.readValue(Score.class, v);
+    for (String v : list) {
+      Score score = json.fromJson(Score.class, v);
       GlyphLayout scoreLayout = new GlyphLayout(
           scoreFont,
           String.format("%s: %s (%s)", scoreNumber, score.getScore(), score.getOwner())); // TODO Why is this unhappy?
