@@ -1,35 +1,27 @@
-# "Pushy Penguins" (Name TBD)
+# "Pushy Penguins" Reference Application
 
-Haven't quite decided on the concept yet, but a hectic survival gameMode similar to Mario Party 5's 
-"Pushy Penguins".
+I started this as a prototype project to understand all the parts of developing and releasing a game.
 
-## Goals/Scope:
-Develop & release an end-to-end gameMode (code, art, music) in 2020
-### Why Am I Doing This?
-1. Because I want to better understand all the parts of developing a gameMode. What I like, how long it 
-takes to do the different parts, learn how to use LibGDX, learn how to do the networking controllers...
-2. Because I want a small gameMode to develop to completion.
-3. Because I think Pushy Penguins is a fun, simple gameMode that can be played with other people.
+But I lost interest in the game concept itself, which made it difficult to make progress.
 
-## To Do:
-- What do I want from this?
-  - Already put a bunch of time in...
-  - And it's just about done
-  - But I don't really care about this game
-  - But I always end up disenchanted by a game
-  - Why did I do this in the first place? To do a simple game that would help me establish the basics
-    so that I can build something nicer
-  - 
-- (Feb) Difficulty, make it fun
+So I'm going to leave it in its current state and use it as a reference application, maybe adding
+onto it when I want to prototype and learn how to implement a new feature (phone controllers, mobile
+compatible, etc.)
+
+## Not To Do:
+- Phone controller
+- Make mobile
+- Network multiplayer
+- Release to store
+- Multiplayer (win condition, teams?)
+- Polishing (Music, Sound Effects, Sprites, Animations, Transitions)
+- Difficulty, make it fun
   - More discrete Beaver sizes? A few big ones...and then mostly small
   - Make the map smaller?
-- (Mar, Apr) Controls
-- (May) Multiplayer (win condition, teams?)
-- (Jun, Jul, Aug) Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites, 
+- More Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites, 
     Animations, Transitions, ToDos, Refactor)
-- (Sep, Oct) Release to store
-- (Nov, Dec) More features? (ToDos, weapons, power ups...)
-- (?) Write tests
+- More features? (network multiplayer, ToDos, weapons, power ups...)
+- Write tests
 
 ## Tools:
 - Java on [LibGDX](https://github.com/libgdx/libgdx/wiki)
