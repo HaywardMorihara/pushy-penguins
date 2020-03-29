@@ -13,6 +13,8 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 
 ## To Do:
 - (Feb) Difficulty, make it fun
+  - More discrete Beaver sizes? A few big ones...and then mostly small
+  - Make the map smaller?
 - (Mar, Apr) Controls
 - (May) Multiplayer (win condition, teams?)
 - (Jun, Jul, Aug) Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites, 
