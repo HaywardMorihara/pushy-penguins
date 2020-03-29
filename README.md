@@ -12,18 +12,14 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 3. Because I think Pushy Penguins is a fun, simple gameMode that can be played with other people.
 
 ## To Do:
-1. (Feb) Single player
-  d. Score placement in context of other scores
-  e. enter text name of player
-2. (Feb) Difficulty, make it fun
-3. (Mar, Apr) Controls
-4. (May) Multiplayer (win condition, teams?)
-5. (Jun, Jul, Aug) Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites, 
-Animations, Transitions, ToDos, Refactor)
-6. (Sep, Oct) Release to store
-7. (Nov, Dec) More features? (ToDos, weapons, power ups...)
-8. (?) Write tests
-### Done:
+- (Feb) Difficulty, make it fun
+- (Mar, Apr) Controls
+- (May) Multiplayer (win condition, teams?)
+- (Jun, Jul, Aug) Polishing (Concept, Main Menu, Pause Menu, Music, Sound Effects, Map, Sprites, 
+    Animations, Transitions, ToDos, Refactor)
+- (Sep, Oct) Release to store
+- (Nov, Dec) More features? (ToDos, weapons, power ups...)
+- (?) Write tests
 
 ## Tools:
 - Java on [LibGDX](https://github.com/libgdx/libgdx/wiki)

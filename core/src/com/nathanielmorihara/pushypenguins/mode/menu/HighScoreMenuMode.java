@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nathanielmorihara.pushypenguins.io.HighScoreFileHandler;
@@ -130,6 +129,8 @@ public class HighScoreMenuMode implements Mode {
           (camera.viewportWidth / 2) - (scoreLayout.width / 2),
           camera.viewportHeight  * (8f / 10f) * ((10 - index) / 10f));
     }
+
+    // TODO Indicate button to press to return to the menu
 
     batch.end();
   }
