@@ -12,6 +12,14 @@ takes to do the different parts, learn how to use LibGDX, learn how to do the ne
 3. Because I think Pushy Penguins is a fun, simple gameMode that can be played with other people.
 
 ## To Do:
+- What do I want from this?
+  - Already put a bunch of time in...
+  - And it's just about done
+  - But I don't really care about this game
+  - But I always end up disenchanted by a game
+  - Why did I do this in the first place? To do a simple game that would help me establish the basics
+    so that I can build something nicer
+  - 
 - (Feb) Difficulty, make it fun
   - More discrete Beaver sizes? A few big ones...and then mostly small
   - Make the map smaller?
