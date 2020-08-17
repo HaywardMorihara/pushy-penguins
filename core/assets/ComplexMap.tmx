@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="5">
+ <tileset firstgid="1" source="GrassTiles.tsx"/>
+ <tileset firstgid="10" source="WaterTiles.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="40" height="30">
+  <data encoding="base64" compression="zstd">
+   JbUv/QIAANugKg4AAAAHAAAABQEFBQEHBAEEAQcFBAQBBQcFBAEEBwQBBQQFAQcEBAcEDkj8FQAcBREEHAQdBAkZNQQcCQQdBf92BxBfAdAiApkhE9IIKoygxAhClqDCCEqQUAmO8P83RvgboREc4f///3eE/QFQIWHMrGw+/D/H7KB8DDpgAAoAgoeHIJSfMMUIyLs8hXMDL6iDi1gDuSC3N4aQ5KHF3UIoxjsEIQMeH3TqBGoSBEmVCwCpDccHSgC//AA9QIEeslC6Ajf04KgmkgACtpw7mIpO6M0m1D9W8QPAAAA=
+  </data>
+ </layer>
+ <objectgroup id="2" name="Water">
+  <object id="1" x="160" y="0" width="480" height="304"/>
+  <object id="2" x="0" y="0" width="48" height="384"/>
+  <object id="4" x="0" y="384" width="640" height="96"/>
+ </objectgroup>
+ <objectgroup id="3" name="Players Spawn"/>
+ <objectgroup id="4" name="Beavers Spawn"/>
+ <objectgroup id="5" name="Turn Locations"/>
+</map>
